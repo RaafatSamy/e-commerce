@@ -1,0 +1,76 @@
+<%- include('parts/header.ejs') %>
+<%- include('parts/navbar.ejs') %>
+
+
+<% if(validationErrors){ %>
+      <p class="text-center" style="color: red;font-weight: 800;margin-top: 50px;"> <%= validationErrors.msg %>  </p>
+  <% } %> 
+
+
+<% if(flashError){%>
+      <div class="container alert alert-success" role="alert" style="margin-top: 50px;">
+        <p class="text-center" style="font-weight:800 ;color:green; "><%= flashError%></p>
+      </div> 
+  <% } %> 
+
+
+<% if(products.length === 0){ %>
+      <div class="alert alert-danger container" role="alert" style="margin-top: 160px;">
+        <h4 class="alert-heading text-center" style="font-weight:900;color:red;font-size: larger;">No Products added yet !</h4>
+        <div class="container text-center">
+          <a href="/"  class="btn btn-primary">Shop</a>
+        </div>
+      </div>
+  <% }else{ %>
+    
+
+    <table class="table table-dark table-hover" style="margin-top: 80px;" >
+      <thead class="text-center">
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Price..$$</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Total</th>
+            <th scope="col">Action</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i=0; i < products.length; i++) {%>   <%# loop to show index  => normal loop for(let product of products) %> 
+
+                <tr>
+                  <form method="POST">
+                  <td class="text-center"><%= i+1 %> </td>
+                  <td class="text-center"><%= products[i].name %> </td>
+                  <td class="text-center"><%= products[i].price %></td>
+                    <td class="text-center">
+                      <input type="text" name="amount"  class="form-control " value="<%= products[i].amount %>">
+                    </td>
+                    <td class="text-center">
+                      <%= products[i].amount * products[i].price %> $ 
+                    </td>
+                    <td class="text-center">
+                      <input type="hidden" name="cartId" value="<%= products[i]._id %>">
+                      <input type="submit" value="Save" class="btn btn-success" formaction="/cart/save">
+                      <input type="submit" value="Delete" class="btn btn-danger" formaction="/cart/delete">
+                    </td>
+                  </tr>
+            </form>
+  
+          <% } %> 
+        </tbody>
+       
+    </table>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <form  method="post" class="me-md-2">
+        <input type="submit" value="Delete All Products" class="btn btn-danger" formaction="/cart/delete-all">
+      </form>
+      <a href="/" class="me-md-2 btn btn-secondary">Back to Shop</a>
+    </div>
+
+    <% } %> 
+
+
+<%- include('parts/footer.ejs') %> 

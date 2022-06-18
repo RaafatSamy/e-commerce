@@ -1,0 +1,60 @@
+<%- include('parts/header.ejs') %> 
+<%- include('parts/navbar.ejs') %> 
+
+
+
+<div class="container" style="margin-top: 60px; width: 200px;">
+  <form  action="/" method="GET" >
+    <select name="category" style="margin-bottom: 10px;" class="form-select" aria-label="Default select example">
+        <option value="all">All Products</option>
+        <option value="computers">Computers</option>
+        <option value="screens">Screens</option>
+        <option value="phones">Phones</option>
+        <option value="clothes">Clothes</option>
+      </select>
+      <input type="submit" value="Filter" class="bnt btn-primary form-control">
+  </form>
+</div>    
+
+
+
+<div class="container" style="margin-top: 40px">
+
+    <% if(products.length === 0 ){ %>
+          <p class="text-center" style="color: red; font-weight:1000; margin-top: 20%;">Sorry, there is  No Products !!</p>
+      <% }else{ %>
+        <div class="row" >
+
+          <% if(validationErrors){ %>
+            <p class="text-center" style="color: red;font-weight:700"><%= validationErrors.msg %> </p>
+        <% } %> 
+
+          <% for(let product of products){ %>
+
+              <div class="col col-12 col-md-6 col-lg-4 col-xl-3" style="margin-top: 40px;">
+                  <div class="card" style="width: 18rem;">
+                      <img src="<%= product.image %>" height="130px" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title"><a class="text-center" href="/product/<%= product._id %>"><%= product.name %></a> </h5>
+                        <h6><%= product.price %> $$ </h6>
+                        <form action="/cart" method="POST">
+                              <input type="number" name="amount"  placeholder="Enter your amount" style="margin-bottom: 5px" class="form-control">                             
+                              <input type="hidden" name="price" value="<%= product.price %> ">
+                              <input type="hidden" name="name" value="<%= product.name %> ">
+                              <input type="hidden" name="productId" value="<%= product._id %> ">
+                              <input type="hidden" name="redirectTo" value="/">
+                              <input type="submit" value="Add To Cart" class="btn btn-primary form-control">
+                        </form>
+                      </div>
+                    </div>
+              </div>
+
+              <% } %> 
+  </div>
+        <% } %> 
+
+    
+</div>
+
+
+<%- include('parts/footer.ejs') %> 

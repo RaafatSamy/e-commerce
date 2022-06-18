@@ -1,0 +1,51 @@
+<%- include('parts/header.ejs') %>
+<%- include('parts/navbar.ejs') %>
+
+
+<% if(authError){ %>
+  <p style="margin-top: 40px" class=" text-center"><strong style="color: red;font-weight:800;font-style: italic;"><%= authError %></strong> </p>
+<% } %> 
+
+<div class="container" style="margin-top: 40px; width: 600px;">
+    <h3 class="text-center" style="color: green;">Create your account</h3>
+    <form action="/signup" method="POST">
+        <div class="mb-3">
+          <input type="text" name="username" class="form-control" placeholder="Username" >
+          <% let usernameError = validationErrors.find(err => err.param === 'username' ) %>
+          <% if(usernameError){ %>
+            <p class=" text-center"><strong style="color: red;font-weight:800;font-style: italic;"><%= usernameError.msg %></strong> </p>
+            <% } %> 
+        </div>
+        <div class="mb-3">
+            <input type="text" name="email" class="form-control" placeholder="E-mail">
+            <% let emailError = validationErrors.find(err => err.param === 'email') %>
+            <% if(emailError){ %>
+              <p class=" text-center"><strong style="color: red;font-weight:800;font-style: italic;"><%= emailError.msg %></strong> </p>
+              <% } %> 
+          </div>
+        <div class="mb-3">
+          <input type="password" name="password" class="form-control" placeholder="Password">
+          <% let passwordError = validationErrors.find(err=> err.param === 'password') %>
+          <% if(passwordError){ %>
+            <p class=" text-center"><strong style="color: red;font-weight:800;font-style: italic;"><%= passwordError.msg%></strong> </p>
+            <% } %> 
+        </div>
+        <div class="mb-3">
+            <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm Password">
+            <% let confirmPassError = validationErrors.find(err=> err.param === 'confirmPassword') %>
+            <% if(confirmPassError){ %>
+              <p class=" text-center"><strong style="color: red;font-weight:800;font-style: italic;"><%= confirmPassError.msg%></strong> </p>
+              <% } %> 
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Signup</button>
+            <div><small><a href="/login">you have account?</a></small></div>
+          </div>
+      </form>
+      
+
+        
+</div>
+
+
+<%- include('parts/footer.ejs') %> 
